@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  hostPath:
+    path: /data/postgres-test
+  storageClassName: standard
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: postgres-test
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-test
+type: Opaque
+data:
+  POSTGRES_USER: cG9zdGdyZXM=     # printf postgres | base64
+  POSTGRES_PASSWORD: cGFzc3dvcmQ= # printf password | base64
+---
+apiVersion:  apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-test
+  labels:
+    app: postgres-test
+    role: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-test
+      role: service
+  serviceName: postgres-test
+  template:
+    metadata:
+      labels:
+        app: postgres-test
+        role: service
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14.10
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_USER
+                  name: postgres-test
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: postgres-test
+          ports:
+            - containerPort: 5432
+              name: postgres-test
+              protocol: TCP
+          volumeMounts:
+            - name: postgres-test
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-test
+          persistentVolumeClaim:
+            claimName: postgres-test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-test
+  labels:
+    app: postgres-test
+    role: service
+spec:
+  selector:
+    app: postgres-test
+    role: service
+  type: NodePort
+  ports:
+    - name: postgres-test
+      port: 5432
+      targetPort: 5432
+      nodePort: 32200
+      protocol: TCP
