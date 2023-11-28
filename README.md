@@ -26,11 +26,11 @@ kubectl get pods -o wide
 
 2. Enter master node
 
-kubectl exec <spark-master-NAME> -it bash
+kubectl exec {{spark-master-NAME}} -it bash
 
 3. bash with IP form spark-master pod
 
-pyspark --conf spark.driver.bindAddress=<spark-master-IP> --conf spark.driver.host=<spark-master-IP>
+pyspark --conf spark.driver.bindAddress={{spark-master-IP}} --conf spark.driver.host={{spark-master-IP}}
 
 ```
 words = 'the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog'
