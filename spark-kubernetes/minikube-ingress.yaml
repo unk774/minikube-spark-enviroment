@@ -8,8 +8,8 @@ spec:
   - host: spark-kubernetes
     http:
       paths:
-        - path: /v1/submissions/create
-          pathType: Exact
+        - path: /v1/submissions
+          pathType: Prefix
           backend:
             service:
               name: spark-master

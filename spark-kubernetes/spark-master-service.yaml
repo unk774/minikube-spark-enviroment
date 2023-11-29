@@ -15,20 +15,3 @@ spec:
       targetPort: 6066
   selector:
     component: spark-master
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: spart-rest-api
-  labels:
-    app: spart-rest-api
-    role: service
-spec:
-  selector:
-    component: spark-master
-  type: NodePort
-  ports:
-    - name: spart-rest-api
-      port: 6066
-      targetPort: 6066
-      nodePort: 32300
