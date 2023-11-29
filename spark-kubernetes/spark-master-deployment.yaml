@@ -17,6 +17,7 @@ spec:
           image: spark-hadoop:3.2.0
           command: ["/spark-master"]
           ports:
+            - containerPort: 6066
             - containerPort: 7077
             - containerPort: 8080
           resources:
