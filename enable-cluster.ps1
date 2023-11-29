@@ -27,4 +27,5 @@ echo "cluster ip:"; minikube ip;
 .\get-jdbc-string.ps1 postgres-test
 
 .\make-hosts-entry.ps1
-echo "spark ui - http://spark-kubernetes/"
+echo "spark ui - http://spark-kubernetes/"        
+.\get-spark-master-config.ps1

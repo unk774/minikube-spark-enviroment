@@ -22,15 +22,21 @@ Delete cluster:
 ## Access spark
 1. Get master node NAME and IP:
 
-kubectl get pods -o wide
+```
+.\get-spark-master-config.ps1
+```
 
 2. Enter master node
 
+```
 kubectl exec {{spark-master-NAME}} -it bash
+```
 
 3. bash with IP form spark-master pod
 
+```
 pyspark --conf spark.driver.bindAddress={{spark-master-IP}} --conf spark.driver.host={{spark-master-IP}}
+```
 
 ```
 words = 'the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog'
@@ -41,6 +47,18 @@ counts = data.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b).collec
 dict(counts)
 sc.stop()
 quit()
+
+
+df = spark.read \
+    .format("jdbc") \
+    .option("url", "{{postgres-dev/postgres-test jdbc connection string}}") \
+    .option("user", "postgres") \
+    .option("password", "password") \
+    .option("driver", "org.postgresql.Driver") \
+	.option("query", "SELECT table_name FROM information_schema.tables") \
+    .load()
+
+df.take(5).show()
 ```
 
 ## Move hyper-v storage
