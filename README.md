@@ -19,23 +19,18 @@ Delete cluster:
 .\delete-cluster.ps1
 ```
 
-## Access spark
-1. Get master node NAME and IP:
+## Access PySpark
+1. Enter master node
 
 ```
-.\get-spark-master-config.ps1
+.\access-master-bash.ps1
 ```
 
-2. Enter master node
+2. bash with IP form spark-master pod
 
 ```
-kubectl exec {{spark-master-NAME}} -it bash
-```
-
-3. bash with IP form spark-master pod
-
-```
-pyspark --conf spark.driver.bindAddress={{spark-master-IP}} --conf spark.driver.host={{spark-master-IP}}
+SPARK_MASTER_HOST=$(hostname -i)
+pyspark --conf spark.driver.bindAddress=$SPARK_MASTER_HOST --conf spark.driver.host=$SPARK_MASTER_HOST
 ```
 
 ```
@@ -45,9 +40,6 @@ seq = words.split()
 data = sc.parallelize(seq)
 counts = data.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a + b).collect()
 dict(counts)
-sc.stop()
-quit()
-
 
 df = spark.read \
     .format("jdbc") \
@@ -58,7 +50,24 @@ df = spark.read \
 	.option("query", "SELECT table_name FROM information_schema.tables") \
     .load()
 
-df.take(5).show()
+df.show()
+
+sc.stop()
+quit()
+```
+
+## Spark-submit example
+
+1. Enter master node
+
+```
+.\access-master-bash.ps1
+```
+
+2. Run demo example
+
+```
+sh /examples/submit-pi.sh
 ```
 
 ## Move hyper-v storage

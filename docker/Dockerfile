@@ -25,7 +25,8 @@ RUN mkdir -p /opt && \
 ADD common.sh spark-master spark-worker /
 ADD spark-defaults.conf /opt/spark/conf/spark-defaults.conf
 ADD log4j.properties /opt/spark/conf/log4j.properties   
-ADD pi.py /examples/pi.py
+ADD examples/pi.py /examples/pi.py
+ADD examples/submit-pi.sh /examples/submit-pi.sh
 
 ADD drivers/postgresql-42.7.0.jar /opt/spark/jars
 ENV PATH $PATH:/opt/spark/bin
