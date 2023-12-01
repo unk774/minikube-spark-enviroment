@@ -6,6 +6,13 @@ installed minikube:
 
 https://minikube.sigs.k8s.io/docs/start/
 
+## UI links
+Airflow:
+http://airflow-kubernetes/
+
+SparkUI:
+http://spark-kubernetes/
+
 ## Usage/Examples
 Run powershell scripts as admin:
 

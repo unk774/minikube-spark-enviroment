@@ -24,7 +24,7 @@ kubectl apply -f ./spark-kubernetes/minikube-ingress.yaml
 helm repo add apache-airflow https://airflow.apache.org
 helm upgrade -f .\airflow\override.yaml --install airflow apache-airflow/airflow `
       --set ingress.web.enabled=true `
-      --set ingress.web.host=airflow-kubernetes `
+      --set 'ingress.web.hosts={"airflow-kubernetes"}' `
       --namespace default
 
 echo "cluster ip:"; minikube ip;

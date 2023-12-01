@@ -3,3 +3,5 @@ extraEnv: |
     value: 'airflow.api.auth.backend.basic_auth' 
   - name: AIRFLOW__CORE__TEST_CONNECTION
     value: 'Enabled'
+  - name: AIRFLOW__CORE__LOAD_EXAMPLES
+    value: 'True'
