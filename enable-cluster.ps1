@@ -22,6 +22,7 @@ Start-Sleep -Seconds 30
 kubectl apply -f ./spark-kubernetes/minikube-ingress.yaml
 
 helm repo add apache-airflow https://airflow.apache.org
+#helm delete airflow --namespace default
 helm upgrade -f .\airflow\override.yaml --install airflow apache-airflow/airflow `
       --set ingress.web.enabled=true `
       --set 'ingress.web.hosts={"airflow-kubernetes"}' `
