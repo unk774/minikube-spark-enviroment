@@ -6,6 +6,17 @@ installed minikube:
 
 https://minikube.sigs.k8s.io/docs/start/
 
+installed helm:
+https://helm.sh/docs/intro/install/
+
+---
+Install through chocolatey (powershell):
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco install minikube
+choco install kubernetes-helm
+```
+
 ## UI links
 Airflow:
 http://airflow-kubernetes/
@@ -17,30 +28,30 @@ http://spark-kubernetes/
 Run powershell scripts as admin:
 
 Enable cluster:
-```
+```powershell
 .\enable-cluster.ps1
 ```
 
 Delete cluster:
-```
+```powershell
 .\delete-cluster.ps1
 ```
 
 ## Access PySpark
 1. Enter master node
 
-```
+```powershell
 .\access-master-bash.ps1
 ```
 
 2. bash with IP form spark-master pod
 
-```
+```bash
 SPARK_MASTER_HOST=$(hostname -i)
 pyspark --conf spark.driver.bindAddress=$SPARK_MASTER_HOST --conf spark.driver.host=$SPARK_MASTER_HOST
 ```
 
-```
+```python
 words = 'the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog'
 sc = SparkContext.getOrCreate()
 seq = words.split()
@@ -67,13 +78,13 @@ quit()
 
 1. Enter master node
 
-```
+```powershell
 .\access-master-bash.ps1
 ```
 
 2. Run demo example
 
-```
+```bash
 sh /examples/submit-pi.sh
 ```
 
